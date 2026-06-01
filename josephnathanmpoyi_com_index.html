@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joseph Nathan Mpoyi — Cloud Security Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black:       #080A0C;
+      --surface:     #0D1117;
+      --surface-2:   #131920;
+      --border:      #1E2A35;
+      --gold:        #C9A84C;
+      --gold-light:  #E8C96A;
+      --gold-dim:    rgba(201,168,76,0.12);
+      --gold-glow:   rgba(201,168,76,0.06);
+      --cyan:        #4FC3DC;
+      --cyan-dim:    rgba(79,195,220,0.08);
+      --text:        #E8EDF2;
+      --text-muted:  #7A8A97;
+      --text-dim:    #3D4F5C;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 9999; opacity: 0.4;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.25; pointer-events: none; z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: rgba(8,10,12,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; color: var(--gold);
+      letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--text-muted);
+      text-decoration: none; letter-spacing: 0.15em;
+      text-transform: uppercase; transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* HERO */
+    .hero {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 0 4rem; overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; top: -20%; left: -10%;
+      width: 70vw; height: 70vw;
+      background: radial-gradient(ellipse, rgba(201,168,76,0.04) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-glow-2 {
+      position: absolute; bottom: -20%; right: -10%;
+      width: 50vw; height: 50vw;
+      background: radial-gradient(ellipse, rgba(79,195,220,0.04) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem; color: var(--gold);
+      letter-spacing: 0.3em; text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 40px; height: 1px; background: var(--gold);
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 300; line-height: 1.0;
+      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+    .hero-name span { color: var(--gold); font-style: italic; }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--text-muted);
+      margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+    .hero-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      font-weight: 300; line-height: 1.7;
+      color: var(--text-muted); max-width: 580px;
+      margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+    .hero-actions {
+      display: flex; gap: 1.5rem; align-items: center;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 1s;
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; background: var(--gold);
+      color: var(--black); font-family: 'Syne', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.3s;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.9rem 2rem; border: 1px solid var(--border);
+      color: var(--text-muted); font-family: 'Syne', sans-serif;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      text-decoration: none; transition: all 0.3s;
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+    .hero-scroll {
+      position: absolute; bottom: 3rem; left: 4rem;
+      display: flex; align-items: center; gap: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--text-dim);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 1.4s;
+    }
+    .scroll-line {
+      width: 40px; height: 1px; background: var(--text-dim);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    /* SECTION BASE */
+    section { position: relative; z-index: 1; padding: 8rem 4rem; }
+    .section-header {
+      display: flex; align-items: center; gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+    .section-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--gold); letter-spacing: 0.2em;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300; letter-spacing: -0.01em;
+    }
+    .section-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* ABOUT */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: start;
+    }
+    .about-text p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 300;
+      line-height: 1.85; color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+    .about-text p strong { color: var(--text); font-weight: 600; }
+    .about-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2rem; position: relative; overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0;
+      width: 3px; height: 100%; background: var(--gold);
+    }
+    .stat-card:hover { border-color: var(--gold); }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300;
+      color: var(--gold); line-height: 1; margin-bottom: 0.5rem;
+    }
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem; color: var(--text-muted);
+      letter-spacing: 0.15em; text-transform: uppercase;
+    }
+
+    /* EXPERIENCE */
+    .experience-list { display: flex; flex-direction: column; gap: 2px; }
+    .exp-item {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2.5rem 3rem; position: relative;
+      overflow: hidden; transition: all 0.3s;
+    }
+    .exp-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .exp-item:hover { background: var(--surface-2); }
+    .exp-item:hover::after { width: 100%; }
+    .exp-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .exp-role {
+      font-family: 'Syne', sans-serif; font-size: 1rem;
+      font-weight: 700; color: var(--text); letter-spacing: 0.05em;
+    }
+    .exp-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--gold); letter-spacing: 0.1em;
+      white-space: nowrap; margin-left: 2rem;
+    }
+    .exp-company {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.72rem;
+      color: var(--text-muted); letter-spacing: 0.15em;
+      text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .exp-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem; font-weight: 300;
+      line-height: 1.7; color: var(--text-muted);
+    }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .skill-category {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.3s;
+    }
+    .skill-category::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: linear-gradient(90deg, var(--gold), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .skill-category:hover { border-color: rgba(201,168,76,0.3); }
+    .skill-category:hover::before { opacity: 1; }
+    .skill-cat-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .skill-cat-title {
+      font-family: 'Syne', sans-serif; font-size: 0.75rem;
+      font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1.5rem;
+    }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .skill-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--text-muted); background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border); padding: 0.35rem 0.75rem;
+      letter-spacing: 0.08em; transition: all 0.2s;
+    }
+    .skill-tag:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+
+    /* CERTIFICATIONS */
+    .certs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .cert-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2rem; text-align: center; transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .cert-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold-glow); opacity: 0; transition: opacity 0.3s;
+    }
+    .cert-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .cert-card:hover::before { opacity: 1; }
+    .cert-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .cert-name {
+      font-family: 'Syne', sans-serif; font-size: 0.8rem;
+      font-weight: 700; color: var(--text);
+      margin-bottom: 0.5rem; letter-spacing: 0.05em;
+    }
+    .cert-issuer {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .cert-status {
+      display: inline-block; margin-top: 0.75rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      padding: 0.25rem 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .cert-status.active {
+      background: rgba(201,168,76,0.1); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.3);
+    }
+    .cert-status.progress {
+      background: rgba(79,195,220,0.08); color: var(--cyan);
+      border: 1px solid rgba(79,195,220,0.2);
+    }
+
+    /* EDUCATION & TRAINING */
+    .training-list { display: flex; flex-direction: column; gap: 2px; }
+    .training-item {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 2rem 3rem; display: flex;
+      justify-content: space-between; align-items: center;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .training-item::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .training-item:hover { background: var(--surface-2); }
+    .training-item:hover::after { width: 100%; }
+    .training-left { display: flex; flex-direction: column; gap: 0.4rem; }
+    .training-name {
+      font-family: 'Syne', sans-serif; font-size: 0.95rem;
+      font-weight: 700; color: var(--text); letter-spacing: 0.03em;
+    }
+    .training-institution {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.68rem;
+      color: var(--text-muted); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .training-right { text-align: right; }
+    .training-date {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--gold); letter-spacing: 0.1em; white-space: nowrap;
+    }
+    .training-badge {
+      display: inline-block; margin-top: 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.58rem;
+      padding: 0.2rem 0.55rem; letter-spacing: 0.1em; text-transform: uppercase;
+      background: var(--gold-dim); color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.2);
+    }
+    .training-badge.current {
+      background: rgba(79,195,220,0.08); color: var(--cyan);
+      border: 1px solid rgba(79,195,220,0.2);
+    }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 3rem; position: relative; overflow: hidden; transition: all 0.3s;
+    }
+    .project-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 80px; height: 80px; background: var(--gold-dim);
+      clip-path: polygon(100% 0, 0 0, 100% 100%); transition: all 0.3s;
+    }
+    .project-card:hover { border-color: rgba(201,168,76,0.4); transform: translateY(-4px); }
+    .project-card:hover::before { background: rgba(201,168,76,0.15); }
+    .project-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      color: var(--gold); letter-spacing: 0.2em; text-transform: uppercase;
+      margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;
+    }
+    .project-tag::before {
+      content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
+    }
+    .project-name {
+      font-family: 'Syne', sans-serif; font-size: 1.2rem;
+      font-weight: 700; color: var(--text);
+      margin-bottom: 1rem; letter-spacing: 0.03em;
+    }
+    .project-desc {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.05rem;
+      font-weight: 300; line-height: 1.7;
+      color: var(--text-muted); margin-bottom: 2rem;
+    }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .stack-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
+      color: var(--cyan); background: var(--cyan-dim);
+      border: 1px solid rgba(79,195,220,0.15);
+      padding: 0.3rem 0.65rem; letter-spacing: 0.08em;
+    }
+
+    /* CONTACT */
+    .contact-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .contact-text h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.2; margin-bottom: 1.5rem;
+    }
+    .contact-text h3 em { color: var(--gold); font-style: italic; }
+    .contact-text p {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.15rem;
+      font-weight: 300; line-height: 1.7;
+      color: var(--text-muted); margin-bottom: 2.5rem;
+    }
+    .contact-links { display: flex; flex-direction: column; gap: 1px; }
+    .contact-link {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 2rem; background: var(--surface);
+      border: 1px solid var(--border); text-decoration: none; transition: all 0.3s;
+    }
+    .contact-link:hover { border-color: var(--gold); background: var(--surface-2); padding-left: 2.5rem; }
+    .contact-link-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      color: var(--text-muted); letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .contact-link-value {
+      font-family: 'Syne', sans-serif; font-size: 0.85rem;
+      font-weight: 600; color: var(--text); transition: color 0.3s;
+    }
+    .contact-link:hover .contact-link-value { color: var(--gold); }
+    .contact-arrow { color: var(--text-dim); font-size: 1rem; transition: all 0.3s; }
+    .contact-link:hover .contact-arrow { color: var(--gold); transform: translateX(4px); }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-copy {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      color: var(--text-dim); letter-spacing: 0.1em;
+    }
+    .footer-copy span { color: var(--gold); }
+    .footer-stack {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.62rem;
+      color: var(--text-dim); letter-spacing: 0.1em;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 4rem;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; width: 40px; }
+      50%       { opacity: 1;   width: 60px; }
+    }
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      nav { padding: 1.5rem 2rem; }
+      section { padding: 6rem 2rem; }
+      .hero { padding: 0 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .certs-grid { grid-template-columns: repeat(2, 1fr); }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      footer { padding: 2rem; flex-direction: column; gap: 1rem; text-align: center; }
+      .divider { margin: 0 2rem; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .certs-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .training-item { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+      .training-right { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">JNM // CSE</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-glow"></div>
+    <div class="hero-glow-2"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Cloud Security Engineer</div>
+      <h1 class="hero-name">Joseph Nathan<br /><span>Mpoyi</span></h1>
+      <p class="hero-title">MDR Analyst &nbsp;·&nbsp; AWS Cloud Security &nbsp;·&nbsp; Bilingual EN/FR</p>
+      <p class="hero-desc">
+        From enterprise operations to the front lines of cybersecurity, now building toward cloud security engineering. 
+        A deliberate career built on precision, structure, and an unrelenting drive to go deeper.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get In Touch &rarr;</a>
+        <a href="#projects" class="btn-secondary">View Projects</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Scroll to explore
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header reveal">
+      <span class="section-number">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>
+          My career did not start in cybersecurity. It started in <strong>people and operations</strong>. 
+          As a Bilingual HR Coordinator at Pratt & Whitney supporting a workforce of 10,000+ employees, 
+          and as an Order Administrator managing cross-functional workflows under strict compliance requirements, 
+          I built a foundation in data integrity, process discipline, and working within high-stakes environments 
+          where errors have real consequences.
+        </p>
+        <p>
+          That foundation carried me into <strong>cybersecurity</strong>. I completed the Level Effect Cyber Defense 
+          Analyst programme, earned the CDCP certification through a live one-week SOC assessment, and moved into 
+          active security operations. Most recently I worked as an <strong>MDR Analyst at an MSSP</strong>, 
+          investigating and triaging security events across endpoint, identity, email, and network telemetry 
+          for multiple enterprise clients using CrowdStrike, Microsoft Sentinel, Proofpoint, and Palo Alto.
+        </p>
+        <p>
+          The next move is deliberate. I am transitioning into <strong>cloud security engineering</strong>, 
+          enrolled in the Digital Cloud Training Cloud Security Engineer pathway building toward AWS Solutions 
+          Architect Associate, AWS Security Specialty, and Terraform certifications. My goal is to move from 
+          monitoring cloud environments to designing and securing them from the ground up, combining active 
+          threat detection experience with deep cloud architecture knowledge.
+        </p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-number">3+</div>
+          <div class="stat-label">Years in Security Operations</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">Event Types Triaged Daily</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">EN/FR</div>
+          <div class="stat-label">Bilingual Professional</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">AWS</div>
+          <div class="stat-label">Cloud Security Pathway</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header reveal">
+      <span class="section-number">02</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="experience-list">
+
+      <div class="exp-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">MDR Tier 1 Analyst</div>
+            <div class="exp-company">GoSecure &nbsp;·&nbsp; MSSP &nbsp;·&nbsp; Toronto, ON</div>
+          </div>
+          <div class="exp-date">Dec 2025 — May 2026</div>
+        </div>
+        <p class="exp-desc">
+          Investigating and triaging 10+ security event types daily across endpoint, identity, email, and network 
+          telemetry for multiple enterprise clients using CrowdStrike, Microsoft Sentinel, Proofpoint, and Palo Alto. 
+          Analysing phishing emails, conducting threat intel enrichment using IPAbuse, Flare, and VPN Detect, 
+          performing post-compromise threat hunting, and producing structured client-facing escalation reports 
+          with findings and recommendations per investigation.
+        </p>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Cyber Defense Analyst</div>
+            <div class="exp-company">Level Effect Security Operations Centre &nbsp;·&nbsp; Remote</div>
+          </div>
+          <div class="exp-date">2023 — Feb 2025</div>
+        </div>
+        <p class="exp-desc">
+          Worked as a SOC analyst performing hands-on detection, investigation, and response across endpoint, 
+          network, and cloud telemetry. Investigated 9+ attack scenarios including malware infection, lateral 
+          movement, credential abuse, persistence mechanisms, and network intrusion. Performed memory forensics, 
+          malware analysis, and network traffic analysis using Wireshark, Sysinternals, Velociraptor, and CyberChef. 
+          Passed the CDCP certification via live one-week SOC assessment requiring full intrusion investigation 
+          and formal report submission.
+        </p>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Bilingual Apple Support Specialist</div>
+            <div class="exp-company">Teleperformance (Contracted to Apple) &nbsp;·&nbsp; Montreal, QC</div>
+          </div>
+          <div class="exp-date">Dec 2024 — Aug 2025</div>
+        </div>
+        <p class="exp-desc">
+          Resolved 50+ daily bilingual technical support cases via phone, live chat, and messaging, diagnosing 
+          hardware and software issues across Mac OS, iPhone, iPad, and Apple ecosystem products. Escalated 
+          complex cases to engineering and specialist teams with structured problem summaries, and maintained 
+          full audit trails in ticketing systems within SLA standards.
+        </p>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Bilingual Order Administrator</div>
+            <div class="exp-company">Burlodge &nbsp;·&nbsp; Toronto, ON</div>
+          </div>
+          <div class="exp-date">Jan 2024 — Oct 2024</div>
+        </div>
+        <p class="exp-desc">
+          Processed 20–30 daily orders coordinating across finance, sales, and warehouse under strict SLA 
+          pressure, maintaining accurate ERP data entry and compliance. Proposed and implemented process 
+          improvements that reduced cross-departmental delays and improved order fulfilment efficiency.
+        </p>
+      </div>
+
+      <div class="exp-item reveal">
+        <div class="exp-header">
+          <div>
+            <div class="exp-role">Bilingual HR Coordinator</div>
+            <div class="exp-company">Pratt & Whitney &nbsp;·&nbsp; Toronto, ON</div>
+          </div>
+          <div class="exp-date">Oct 2021 — Oct 2023</div>
+        </div>
+        <p class="exp-desc">
+          Supported HR operations for a workforce of 10,000+ employees, managing onboarding, employee records, 
+          compensation data, and access provisioning with strong attention to data integrity and compliance. 
+          Maintained accurate records across HR systems and coordinated cross-functional workflows under strict 
+          data handling requirements.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header reveal">
+      <span class="section-number">03</span>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid">
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">☁️</div>
+        <div class="skill-cat-title">Cloud & Identity</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Microsoft Azure</span>
+          <span class="skill-tag">Microsoft 365</span>
+          <span class="skill-tag">Active Directory</span>
+          <span class="skill-tag">AWS IAM</span>
+          <span class="skill-tag">VPC</span>
+          <span class="skill-tag">EC2</span>
+          <span class="skill-tag">S3</span>
+          <span class="skill-tag">Lambda</span>
+          <span class="skill-tag">CloudTrail</span>
+          <span class="skill-tag">CloudWatch</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">🛡️</div>
+        <div class="skill-cat-title">Security Tools</div>
+        <div class="skill-tags">
+          <span class="skill-tag">CrowdStrike Falcon</span>
+          <span class="skill-tag">Microsoft Sentinel</span>
+          <span class="skill-tag">Microsoft Defender</span>
+          <span class="skill-tag">Proofpoint</span>
+          <span class="skill-tag">Palo Alto</span>
+          <span class="skill-tag">Splunk</span>
+          <span class="skill-tag">ELK Stack</span>
+          <span class="skill-tag">FortiSIEM</span>
+          <span class="skill-tag">FortiSOAR</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">🔬</div>
+        <div class="skill-cat-title">DFIR & Analysis</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Wireshark</span>
+          <span class="skill-tag">Velociraptor</span>
+          <span class="skill-tag">Sysinternals</span>
+          <span class="skill-tag">CyberChef</span>
+          <span class="skill-tag">any.run</span>
+          <span class="skill-tag">Nmap</span>
+          <span class="skill-tag">IPAbuse</span>
+          <span class="skill-tag">Flare</span>
+          <span class="skill-tag">Memory Forensics</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">🌐</div>
+        <div class="skill-cat-title">Networking</div>
+        <div class="skill-tags">
+          <span class="skill-tag">TCP/IP</span>
+          <span class="skill-tag">DNS</span>
+          <span class="skill-tag">DHCP</span>
+          <span class="skill-tag">VPN</span>
+          <span class="skill-tag">IPSec</span>
+          <span class="skill-tag">RADIUS</span>
+          <span class="skill-tag">LAN/WAN</span>
+          <span class="skill-tag">Firewall</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">📋</div>
+        <div class="skill-cat-title">Frameworks</div>
+        <div class="skill-tags">
+          <span class="skill-tag">MITRE ATT&CK</span>
+          <span class="skill-tag">NIST</span>
+          <span class="skill-tag">CIS Controls</span>
+          <span class="skill-tag">Cyber Kill Chain</span>
+          <span class="skill-tag">ISO 27001</span>
+        </div>
+      </div>
+
+      <div class="skill-category reveal">
+        <div class="skill-cat-icon">💻</div>
+        <div class="skill-cat-title">Platforms & Automation</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Windows Server</span>
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">macOS</span>
+          <span class="skill-tag">ServiceNow</span>
+          <span class="skill-tag">Python (in progress)</span>
+          <span class="skill-tag">Terraform (in progress)</span>
+          <span class="skill-tag">CloudFormation</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifications">
+    <div class="section-header reveal">
+      <span class="section-number">04</span>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="certs-grid">
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🏅</div>
+        <div class="cert-name">CompTIA Security+</div>
+        <div class="cert-issuer">CompTIA</div>
+        <div class="cert-status active">Active</div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🔐</div>
+        <div class="cert-name">Cyber Defense Certified Professional</div>
+        <div class="cert-issuer">Level Effect</div>
+        <div class="cert-status active">Active</div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">☁️</div>
+        <div class="cert-name">AWS Solutions Architect Associate</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-status progress">In Progress</div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🛡️</div>
+        <div class="cert-name">AWS Security Specialty</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-status progress">In Progress</div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">🤖</div>
+        <div class="cert-name">AWS AI Practitioner</div>
+        <div class="cert-issuer">Amazon Web Services</div>
+        <div class="cert-status progress">In Progress</div>
+      </div>
+
+      <div class="cert-card reveal">
+        <div class="cert-icon">⚙️</div>
+        <div class="cert-name">Terraform Associate</div>
+        <div class="cert-issuer">HashiCorp</div>
+        <div class="cert-status progress">In Progress</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- EDUCATION & TRAINING -->
+  <section id="education">
+    <div class="section-header reveal">
+      <span class="section-number">05</span>
+      <h2 class="section-title">Education & Training</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="training-list">
+
+      <div class="training-item reveal">
+        <div class="training-left">
+          <div class="training-name">Cloud Security Engineer Pathway</div>
+          <div class="training-institution">Digital Cloud Training &nbsp;·&nbsp; AWS Bootcamp</div>
+        </div>
+        <div class="training-right">
+          <div class="training-date">2025 — Present</div>
+          <div class="training-badge current">In Progress</div>
+        </div>
+      </div>
+
+      <div class="training-item reveal">
+        <div class="training-left">
+          <div class="training-name">Cyber Defense Analyst Programme</div>
+          <div class="training-institution">Level Effect &nbsp;·&nbsp; Security Operations Centre</div>
+        </div>
+        <div class="training-right">
+          <div class="training-date">2023 — 2025</div>
+          <div class="training-badge">Completed</div>
+        </div>
+      </div>
+
+      <div class="training-item reveal">
+        <div class="training-left">
+          <div class="training-name">Splunk: A SIEM Tool Bootcamp</div>
+          <div class="training-institution">Splunk &nbsp;·&nbsp; Certificate of Participation</div>
+        </div>
+        <div class="training-right">
+          <div class="training-date">Sept 2025</div>
+          <div class="training-badge">Completed</div>
+        </div>
+      </div>
+
+      <div class="training-item reveal">
+        <div class="training-left">
+          <div class="training-name">Associate Degree — Network Administration & Security</div>
+          <div class="training-institution">Houston Community College &nbsp;·&nbsp; Houston, TX</div>
+        </div>
+        <div class="training-right">
+          <div class="training-date">2018 — 2019</div>
+          <div class="training-badge">Completed</div>
+        </div>
+      </div>
+
+      <div class="training-item reveal">
+        <div class="training-left">
+          <div class="training-name">Associate Degree — Network & System Administration</div>
+          <div class="training-institution">Kirkwood Community College &nbsp;·&nbsp; Iowa City, IA</div>
+        </div>
+        <div class="training-right">
+          <div class="training-date">2015 — 2017</div>
+          <div class="training-badge">Completed</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header reveal">
+      <span class="section-number">06</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-tag">AWS · Cloud Infrastructure</div>
+        <div class="project-name">Personal Brand Website on AWS</div>
+        <p class="project-desc">
+          Designed and deployed a secure static website on AWS using S3, CloudFront, ACM, and Route 53. 
+          Implemented Origin Access Control to restrict direct S3 access, enforced HTTPS via ACM certificate 
+          provisioned in us-east-1, and configured CloudFront edge caching for global performance. 
+          S3 bucket policy allows CloudFront OAC only, blocking all direct public access.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Amazon S3</span>
+          <span class="stack-tag">CloudFront</span>
+          <span class="stack-tag">ACM</span>
+          <span class="stack-tag">Route 53</span>
+          <span class="stack-tag">OAC</span>
+          <span class="stack-tag">IAM</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-tag">Coming Soon · AWS</div>
+        <div class="project-name">Secure VPC Architecture</div>
+        <p class="project-desc">
+          Multi-tier VPC deployment with public and private subnets across multiple availability zones, 
+          NAT Gateway for private subnet internet access, Security Groups and NACLs following least privilege, 
+          and Session Manager for secure instance access without SSH exposure.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">VPC</span>
+          <span class="stack-tag">EC2</span>
+          <span class="stack-tag">RDS</span>
+          <span class="stack-tag">NAT Gateway</span>
+          <span class="stack-tag">Systems Manager</span>
+          <span class="stack-tag">CloudFormation</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-tag">Coming Soon · AWS Security</div>
+        <div class="project-name">Cloud Security Monitoring Dashboard</div>
+        <p class="project-desc">
+          Centralised security monitoring using CloudTrail, GuardDuty, Security Hub, and CloudWatch. 
+          Real-time alerting on critical security events including IAM changes, root account usage, 
+          and security group modifications, with logs shipped to OpenSearch for investigation.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">CloudTrail</span>
+          <span class="stack-tag">GuardDuty</span>
+          <span class="stack-tag">Security Hub</span>
+          <span class="stack-tag">CloudWatch</span>
+          <span class="stack-tag">OpenSearch</span>
+          <span class="stack-tag">SNS</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-tag">Coming Soon · Serverless</div>
+        <div class="project-name">Serverless Security Automation</div>
+        <p class="project-desc">
+          Event-driven security response pipeline using Lambda, EventBridge, and Step Functions. 
+          Automatically detects misconfigurations, isolates compromised resources, revokes credentials, 
+          and notifies the security team. Built with Python and Boto3.
+        </p>
+        <div class="project-stack">
+          <span class="stack-tag">Lambda</span>
+          <span class="stack-tag">EventBridge</span>
+          <span class="stack-tag">Step Functions</span>
+          <span class="stack-tag">Python</span>
+          <span class="stack-tag">Boto3</span>
+          <span class="stack-tag">IAM</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-text reveal">
+        <h3>Let's build something<br /><em>secure together.</em></h3>
+        <p>
+          Open to cloud security engineering roles, contract work, and meaningful conversations 
+          about securing cloud infrastructure. Based in Toronto, available for remote and hybrid opportunities.
+        </p>
+        <a href="mailto:mpoyijonathan746@gmail.com" class="btn-primary">Send a Message &rarr;</a>
+      </div>
+      <div class="contact-links reveal">
+        <a href="mailto:mpoyijonathan746@gmail.com" class="contact-link">
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">mpoyijonathan746@gmail.com</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="https://www.linkedin.com/in/joseph-nathan-panzu-mpoyi-416757173" target="_blank" class="contact-link">
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">joseph-nathan-panzu-mpoyi</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="#" class="contact-link">
+          <div>
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-value">Coming Soon</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+        <a href="#" class="contact-link">
+          <div>
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-value">Toronto, Ontario — Canada</div>
+          </div>
+          <span class="contact-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2026 <span>Joseph Nathan Mpoyi</span>. All rights reserved.</div>
+    <div class="footer-stack">Deployed on <span style="color:var(--gold)">AWS</span> · S3 · CloudFront · Route 53</div>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(el => observer.observe(el));
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.style.color = '';
+        if (link.getAttribute('href') === `#${current}`) link.style.color = 'var(--gold)';
+      });
+    });
+  </script>
+
+</body>
+</html>
